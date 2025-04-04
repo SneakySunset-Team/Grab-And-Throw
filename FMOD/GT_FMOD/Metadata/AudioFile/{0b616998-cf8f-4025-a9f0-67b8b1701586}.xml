@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{0b616998-cf8f-4025-a9f0-67b8b1701586}">
+		<property name="assetPath">
+			<value>CharaMathis_GetGrabbed-001.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.40253968253968253</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{1e903685-97b9-4152-80ba-f2c2b0f00c01}</destination>
+		</relationship>
+	</object>
+</objects>

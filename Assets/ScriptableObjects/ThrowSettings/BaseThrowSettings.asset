@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1acd14eeab956e740a063e1e8da3c244, type: 3}
+  m_Name: BaseThrowSettings
+  m_EditorClassIdentifier: 
+  <MinThrowPower>k__BackingField: 8
+  <MaxThrowPower>k__BackingField: 15
+  <ThrowType>k__BackingField: 2
+  <MaxThrowChargeTime>k__BackingField: 0.5
+  <ThrowAngle>k__BackingField: 45
+  <IsMovementDisabled>k__BackingField: 1

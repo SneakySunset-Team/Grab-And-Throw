@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{20747cff-07e0-485d-ab72-1aed13d3c2e5}">
+		<property name="assetPath">
+			<value>CharaMathis_ThrowNoArtefact-001.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.57376417233560095</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{1e903685-97b9-4152-80ba-f2c2b0f00c01}</destination>
+		</relationship>
+	</object>
+</objects>
