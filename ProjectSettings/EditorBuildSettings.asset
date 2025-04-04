@@ -6,19 +6,19 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/StartScene.unity
+    path: Assets/-Project/Scenes/StartScene.unity
     guid: f3cae393bc9e90344b4de847a78f2c73
   - enabled: 0
-    path: Assets/Scenes/Gym.unity
+    path: Assets/-Project/Scenes/Gym.unity
     guid: e147103f78932614f80e6532541f006a
   - enabled: 0
-    path: Assets/Scenes/Gym_CapturFlag.unity
+    path: Assets/-Project/Scenes/Gym_CapturFlag.unity
     guid: 6a2e066a605b8af4480896be877044ea
   - enabled: 0
-    path: Assets/Scenes/Gym_Boat.unity
+    path: Assets/-Project/Scenes/Gym_Boat.unity
     guid: 4af4ffaee821fa94ab7f06b94b730198
   - enabled: 1
-    path: Assets/Scenes/Level3.unity
+    path: Assets/-Project/Scenes/Level3.unity
     guid: 86aff04766c0a294fa5e4056589119bd
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 4bc2cbd5f6301174394a6038ba4d8652, type: 2}
