@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem.LowLevel;
 
 public enum EComponentType
 {
@@ -195,6 +196,12 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
 
         _renderers.ForEach(a => a.gameObject.SetActive(true));
         _hasObjectSnapped = false;
+    }
+
+    public GTSO_PhysicsParams GetPhysicParams(EGrabbingState state)
+    {
+        return _physicsDictionaryOverride != null && _physicsDictionaryOverride.ContainsKey(state) ? _physicsDictionaryOverride[state] :
+        _physicsDictionary != null && _physicsDictionary.PhysicParamsDictionary.ContainsKey(state) ? _physicsDictionary.PhysicParamsDictionary[state] : null;
     }
 
     public bool HasObjectSnapped() => _hasObjectSnapped;

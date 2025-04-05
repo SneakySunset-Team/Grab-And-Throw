@@ -1,5 +1,7 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -42,7 +44,7 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
         _objectGrabbed.SetFocused(false);
         FMODUnity.RuntimeManager.PlayOneShot($"event:/Chara/{GTPlayerManager.Instance.GetPlayerFmodName(_tag.GetPlayerTag())}/Grab");
         _nearestGrabbableObject = null;
-        _objectGrabbed.OnGrabbed(this, _grabbedObjectTransform, _myGrabbable);
+        _objectGrabbed.OnGrabbed(this, _grabbedItemParent, _myGrabbable);
 
         _rig.weight = 1;
         var grabPoints = _objectGrabbed.GetGrabbableComponent<GTGrabbableObject>().GetGrabPoints();
@@ -172,19 +174,26 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
 
     // ****** UNITY      ******************************************
 
-    [SerializeField] private BoxCollider _collider;
-    [SerializeField] private Transform _grabbedObjectTransform;
     [SerializeField] private GTSO_ThrowSettings _gtsoThrowSettings;
-    [SerializeField] private Transform _previewTransform;
-    [SerializeField] private float _previewMaxZScale;
-    [SerializeField] private ChainIKConstraint _rigConstraintLeft;
-    [SerializeField] private ChainIKConstraint _rigConstraintRight;
-    [SerializeField] private float _detectionRange;
-    [SerializeField] private LayerMask _detectionLayer;
+    [SerializeField] private Transform _grabbedItemParent;
+
+    [SerializeField, BoxGroup("Preview")] private Transform _previewTransform;
+    [SerializeField, BoxGroup("Preview")] private float _previewMaxZScale;
+    [SerializeField, BoxGroup("Preview"), Range(3, 30)] private int _lineResolution;
+
+    [SerializeField, BoxGroup("Rigging")] private ChainIKConstraint _rigConstraintLeft;
+    [SerializeField, BoxGroup("Rigging")] private ChainIKConstraint _rigConstraintRight;
+ 
+    [SerializeField, BoxGroup("Detection")] private float _detectionRange;
+    [SerializeField, BoxGroup("Detection")] private float _detectionRadius;
+    [SerializeField, BoxGroup("Detection")] private LayerMask _detectionLayer;
+    [SerializeField, BoxGroup("Detection")] private Vector3 _detectionCenterOffset;
+    [SerializeField, BoxGroup("Detection")] private bool _debugDetectionSphere;
 
 
     private void Start()
     {
+        _lineRenderer = GetComponent<LineRenderer>();
         _throwPower = _gtsoThrowSettings.MaxThrowPower;
         _myGrabbable = GetGrabberComponent<IGrabbable>();
         if (_myGrabbable != null)
@@ -193,6 +202,7 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
         }
         _rig = GetComponentInChildren<Rig>();
         _tag = GetComponent<GTPlayerTag>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     private void OnDisable()
@@ -205,7 +215,16 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
 
     private void FixedUpdate()
     {
-        if (Physics.SphereCast(transform.position + transform.up * .2f, .3f, transform.forward, out RaycastHit hitInfo, _detectionRange, _detectionLayer, QueryTriggerInteraction.Ignore))
+        if (_isChargingThrow)
+        {
+            UpdateThrowPreview();
+        }
+        else
+        {
+            _lineRenderer.positionCount = 0;
+        }
+
+        if (Physics.SphereCast(transform.position + _detectionCenterOffset, _detectionRadius, transform.forward, out RaycastHit hitInfo, _detectionRange, _detectionLayer, QueryTriggerInteraction.Ignore))
         {
             var grabbable = hitInfo.transform.GetComponent<IGrabbable>();
             if (grabbable != _nearestGrabbableObject)
@@ -230,6 +249,16 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        if (_debugDetectionSphere)
+        {
+            Gizmos.DrawWireCube(transform.position + _detectionCenterOffset + transform.forward * _detectionRadius / 2, 
+                transform.forward * _detectionRange + transform.right * _detectionRadius + transform.up * _detectionRadius);
+            Gizmos.DrawWireSphere(transform.position + _detectionCenterOffset + transform.forward * _detectionRange, _detectionRadius);
+        }
+    }
+
     // ****** RESTRICTED      ******************************************
 
     private List<IGrabbable> _grabbableObjectsInRange = new List<IGrabbable>();
@@ -243,8 +272,8 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
     private IEnumerator _throwEnum;
     private Rig _rig;
     private GTPlayerTag _tag;
+    private Rigidbody _rigidbody;
     private ConfigurableJoint _joint;
-    private int _lineResolution;
     private LineRenderer _lineRenderer;
 
     private void ApplyThrow()
@@ -341,41 +370,56 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
         
         _throwEnum = null;
     }
-    
-    private void GetPreviewPoints()
+
+    private void UpdateThrowPreview()
     {
         float angleInRadians = _gtsoThrowSettings.ThrowAngle * Mathf.Deg2Rad;
         Vector3 horizontalDir = transform.forward;
-
-        _throwPower = Mathf.Clamp(_throwPower, _gtsoThrowSettings.MinThrowPower, _gtsoThrowSettings.MaxThrowPower);
-
+        // Note: Check these pointer dereferences, they look incorrect
+        // _throwPower = Mathf.Clamp(_throwPower, _gtsoThrowSettings.MinThrowPower, _gtsoThrowSettings.MaxThrowPower);
         float horizontalForce = _throwPower * Mathf.Cos(angleInRadians);
         float verticalForce = _throwPower * Mathf.Sin(angleInRadians);
-
         Vector3 force = (horizontalDir * horizontalForce) + (Vector3.up * verticalForce);
-
-        Vector3 velocity = (force / _objectGrabbed.GetGrabbableComponent<Rigidbody>().mass) * Time.fixedDeltaTime;
-        float flightDuration = (velocity.y * 2) / Physics.gravity.y;
+        Vector3 velocity = (force / _objectGrabbed.GetGrabbableComponent<GTGrabbableObject>().GetPhysicParams(EGrabbingState.Thrown).Mass);
+        float flightDuration = (2 * velocity.y) / Mathf.Abs(Physics.gravity.y);
 
         float stepTime = flightDuration / _lineResolution;
-
         List<Vector3> points = new List<Vector3>();
+        Vector3 startPos = _objectGrabbed.GetGrabbableComponent<Transform>().position;
+        points.Add(startPos); // Add starting position
 
-        for (int i = 0; i < _lineResolution; i++)
+        for (int i = 1; i < _lineResolution; i++)
         {
             float stepTimePassed = stepTime * i;
-            Vector3 MovementVector = new Vector3(
-                velocity.x * stepTimePassed,
-                velocity.y * stepTimePassed - 0.5f * Physics.gravity.y * stepTimePassed * stepTimePassed,
-                velocity.z * stepTimePassed);
+            // Calculate position at this time step
+            Vector3 newPos = new Vector3(
+                startPos.x + velocity.x * stepTimePassed,
+                startPos.y + velocity.y * stepTimePassed + 0.5f * Physics.gravity.y * stepTimePassed * stepTimePassed,
+                startPos.z + velocity.z * stepTimePassed);
 
-            RaycastHit hit;
-/*            if(Physics.Raycast(_objectGrabbed.GetGrabbableComponent<Transform>().position, - MovementVector, out hit, MovementVector.magnitude))
+            // Cast ray from previous point to new point
+            Vector3 direction = newPos - points[i - 1];
+            float distance = direction.magnitude;
+            RaycastHit[] hits = Physics.RaycastAll(points[i - 1], direction.normalized, distance);
+
+            Debug.DrawRay(points[i - 1], direction, Color.red);
+
+            bool isHit = false;
+            foreach (RaycastHit hit in hits)
             {
-                break;
-            }*/
-            points.Add(-MovementVector + _objectGrabbed.GetGrabbableComponent<Transform>().position);
+                if (hit.rigidbody != _rigidbody && hit.rigidbody != _objectGrabbed.GetGrabbableComponent<Rigidbody>())
+                {
+                    // If hit something other than our object, mark the hit point and break
+                    points.Add(hit.point);
+                    isHit = true;
+                    break;
+                }
+            }
+
+            if (isHit) break;
+            points.Add(newPos);
         }
+
         _lineRenderer.positionCount = points.Count;
         _lineRenderer.SetPositions(points.ToArray());
     }

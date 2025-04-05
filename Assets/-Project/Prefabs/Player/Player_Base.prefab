@@ -653,17 +653,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd502f8e0b705224c8113986a4470a2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collider: {fileID: 4432010672605893313}
-  _grabbedObjectTransform: {fileID: 7451007663378182601}
-  _gtsoThrowSettings: {fileID: 11400000, guid: 46e0c04f5d18eef42a18ac84adeeaf4f, type: 2}
+  _gtsoThrowSettings: {fileID: 11400000, guid: af064b124e8c2f342bc17f91061aba45, type: 2}
+  _grabbedItemParent: {fileID: 7451007663378182601}
   _previewTransform: {fileID: 5813101405421609519}
   _previewMaxZScale: 5
+  _lineResolution: 20
   _rigConstraintLeft: {fileID: 1045285626308020881}
   _rigConstraintRight: {fileID: 4183645962136016023}
   _detectionRange: 2
+  _detectionRadius: 0.3
   _detectionLayer:
     serializedVersion: 2
     m_Bits: 119
+  _detectionCenterOffset: {x: 0, y: 0.2, z: 0}
+  _debugDetectionSphere: 1
 --- !u!114 &6219329069211287196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,14 +1005,23 @@ LineRenderer:
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.04040402
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
       key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0, g: 0, b: 0, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key1: {r: 0.9716981, g: 0.022917405, b: 0.022917405, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -1024,8 +1036,8 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 59174
+      atime2: 65342
       atime3: 0
       atime4: 0
       atime5: 0
@@ -1034,7 +1046,7 @@ LineRenderer:
       m_Mode: 0
       m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
