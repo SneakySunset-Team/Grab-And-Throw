@@ -65,21 +65,22 @@ MonoBehaviour:
     - Name: OnStateExitEvent
       Entry: 6
       Data: 
+    - Name: _normalMaterials
+      Entry: 6
+      Data: 
     - Name: _physicsDictionaryOverride
       Entry: 6
       Data: 
-  HasObjectSnapped: 0
-  _meshToRecolor: {fileID: 2440872394354837525}
-  _normalMaterial: {fileID: 2100000, guid: 21073cce4bf1d5148ba45f852a0d86a6, type: 2}
   _highlightMaterial: {fileID: 2100000, guid: 9db3bfa7a2a14404a83aaae1e3040e8e, type: 2}
   _physicsDictionary: {fileID: 11400000, guid: 9a3dca7ed84a4ee4385d56fadaaad579, type: 2}
   _jointParams: {fileID: 11400000, guid: 55bf2063469ccfa489df61db74d11abc, type: 2}
-  _GrabPointLeft: {fileID: 5980175494389786389}
-  _GrabPointRight: {fileID: 477262000233558500}
+  _grabbingState: 0
   _isBlueprint: 0
   _blueprintMaterial: {fileID: 2100000, guid: 5a56c3c02ec7c9f47b6e3fcb2e88aa76, type: 2}
   _ComponentID: 0
-  _colliders: []
+  _hasObjectSnapped: 0
+  _GrabPointLeft: {fileID: 5980175494389786389}
+  _GrabPointRight: {fileID: 477262000233558500}
 --- !u!54 &4114470330905092139
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -146,7 +147,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.5000007, y: -0.4999993, z: -0.4999993, w: 0.5000007}
   m_LocalPosition: {x: 0, y: 0.16900001, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8146068499988094011}
@@ -201,7 +202,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.49999997, y: -0.50000006, z: -0.4999985, w: 0.50000155}
   m_LocalPosition: {x: 0, y: 0.169, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8146068499988094011}

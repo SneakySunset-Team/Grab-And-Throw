@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1acd14eeab956e740a063e1e8da3c244, type: 3}
   m_Name: BaseThrowSettings
   m_EditorClassIdentifier: 
-  <MinThrowPower>k__BackingField: 8
-  <MaxThrowPower>k__BackingField: 15
+  <MinThrowPower>k__BackingField: 10
+  <MaxThrowPower>k__BackingField: 30
   <ThrowType>k__BackingField: 2
-  <MaxThrowChargeTime>k__BackingField: 0.5
+  <MaxThrowChargeTime>k__BackingField: 0.4
   <ThrowAngle>k__BackingField: 45
   <IsMovementDisabled>k__BackingField: 1
