@@ -15,7 +15,7 @@ MonoBehaviour:
   <IsPhysicsEnabled>k__BackingField: 1
   <IsPhysicsGravityEnabled>k__BackingField: 1
   <Mass>k__BackingField: 1.75
-  <GravityAdditionalStrength>k__BackingField: 0
+  <GravityAdditionalStrength>k__BackingField: -60
   <PhysicsMaterial>k__BackingField: {fileID: 0}
   <RigidbodyConstraints>k__BackingField: 56
   <PhysicsEcludeLayers>k__BackingField:
