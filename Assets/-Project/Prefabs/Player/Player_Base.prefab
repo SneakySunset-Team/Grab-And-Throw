@@ -613,8 +613,7 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 11400000, guid: d7e71b1fce9430a45a8294e917fff6ad, type: 2}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -631,7 +630,7 @@ MonoBehaviour:
       Data: 
     - Name: _physicsDictionaryOverride
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[EGrabbingState, Assembly-CSharp],[GTSO_PhysicsParams,
+      Data: 0|System.Collections.Generic.Dictionary`2[[EGrabbingState, Assembly-CSharp],[GTPhysicsParams,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
@@ -656,8 +655,38 @@ MonoBehaviour:
       Entry: 3
       Data: 0
     - Name: $v
-      Entry: 10
+      Entry: 7
+      Data: GTPhysicsParams, Assembly-CSharp
+    - Name: <IsPhysicsEnabled>k__BackingField
+      Entry: 5
+      Data: true
+    - Name: <IsPhysicsGravityEnabled>k__BackingField
+      Entry: 5
+      Data: true
+    - Name: <Mass>k__BackingField
+      Entry: 4
+      Data: 1
+    - Name: <GravityAdditionalStrength>k__BackingField
+      Entry: 4
+      Data: -35
+    - Name: <PhysicsMaterial>k__BackingField
+      Entry: 6
+      Data: 
+    - Name: <RigidbodyConstraints>k__BackingField
+      Entry: 3
+      Data: 56
+    - Name: <PhysicsEcludeLayers>k__BackingField
+      Entry: 7
+      Data: UnityEngine.LayerMask, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
       Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 

@@ -1589,6 +1589,7 @@ GameObject:
   - component: {fileID: 1550046713233359123}
   - component: {fileID: 492644922948349315}
   - component: {fileID: 4933944040629615461}
+  - component: {fileID: 6481779213782496884}
   m_Layer: 0
   m_Name: PersistantManager
   m_TagString: Untagged
@@ -1857,6 +1858,27 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &6481779213782496884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8655559172237150951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1e665c72797eb47911157b72f49f88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
 --- !u!1 &8868504535790579295
 GameObject:
   m_ObjectHideFlags: 0
