@@ -44,7 +44,6 @@ public class GTRecipeItemUI : MonoBehaviour
     {
         if (GTBlueprintResourceManager.Instance.GetComponentIcon(componentId) != null)
         {
-            Debug.Log(GTBlueprintResourceManager.Instance.GetComponentIcon(componentId).name);
             _icon.sprite = GTBlueprintResourceManager.Instance.GetComponentIcon(componentId);
         }
         else

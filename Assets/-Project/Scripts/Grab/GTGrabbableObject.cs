@@ -198,10 +198,20 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
         _hasObjectSnapped = false;
     }
 
-    public GTSO_PhysicsParams GetPhysicParams(EGrabbingState state)
+    public GTPhysicsParams GetPhysicParams(EGrabbingState state)
     {
-        return _physicsDictionaryOverride != null && _physicsDictionaryOverride.ContainsKey(state) ? _physicsDictionaryOverride[state] :
-        _physicsDictionary != null && _physicsDictionary.PhysicParamsDictionary.ContainsKey(state) ? _physicsDictionary.PhysicParamsDictionary[state] : null;
+        if (_physicsDictionaryOverride != null && _physicsDictionaryOverride.ContainsKey(state))
+        {
+            return _physicsDictionaryOverride[state];
+        }
+        else if(_physicsDictionary != null && _physicsDictionary.PhysicParamsDictionary.ContainsKey(state))
+        {
+            var physParams = new GTPhysicsParams();
+            physParams.SetParams(_physicsDictionary.PhysicParamsDictionary[state]);
+            return   physParams;
+        }
+
+        return new GTPhysicsParams();
     }
 
     public bool HasObjectSnapped() => _hasObjectSnapped;
@@ -215,7 +225,7 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
     [SerializeField, HideIf("_isBlueprint")] protected Material _highlightMaterial;
 
     [SerializeField, FoldoutGroup("Dictionaries")] private GTSO_PhysicsDictionary _physicsDictionary;
-    [SerializeField, FoldoutGroup("Dictionaries")] private Dictionary<EGrabbingState, GTSO_PhysicsParams> _physicsDictionaryOverride;
+    [SerializeField, FoldoutGroup("Dictionaries"), DictionaryDrawerSettings()] private Dictionary<EGrabbingState, GTPhysicsParams> _physicsDictionaryOverride;
     [SerializeField, FoldoutGroup("Dictionaries")] private GTSO_ConfigurableJointParams _jointParams;
     [SerializeField, ReadOnly, FoldoutGroup("Dictionaries")] private EGrabbingState _grabbingState;
 
@@ -275,7 +285,7 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
     }
 
 #if UNITY_EDITOR
-    // Méthode pour l'éditeur uniquement pour gérer les changements dans l'inspecteur
+    // Mï¿½thode pour l'ï¿½diteur uniquement pour gï¿½rer les changements dans l'inspecteur
     private void OnValidate()
     {
         if (_previousIsBlueprint != _isBlueprint)
@@ -365,10 +375,7 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
 
     private void ChangePhysicState(EGrabbingState newState)
     {
-        GTSO_PhysicsParams physParams = _physicsDictionaryOverride != null && _physicsDictionaryOverride.ContainsKey(newState) ? _physicsDictionaryOverride[newState] :
-            _physicsDictionary != null && _physicsDictionary.PhysicParamsDictionary.ContainsKey(newState) ? _physicsDictionary.PhysicParamsDictionary[newState] : null;
-
-        if (physParams == null) return;
+        GTPhysicsParams physParams = GetPhysicParams(newState);
 
         _myColliders.ForEach(collider => collider.material = physParams.PhysicsMaterial);
         _rb.isKinematic = !physParams.IsPhysicsEnabled;     

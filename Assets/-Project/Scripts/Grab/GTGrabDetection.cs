@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.InputSystem;
 
 public class GTGrabDetection : MonoBehaviour, IGrabber
 {
@@ -193,6 +194,7 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
 
     private void Start()
     {
+        _playerInput = GetComponent<PlayerInput>();
         _lineRenderer = GetComponent<LineRenderer>();
         _throwPower = _gtsoThrowSettings.MaxThrowPower;
         _myGrabbable = GetGrabberComponent<IGrabbable>();
@@ -275,6 +277,7 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
     private Rigidbody _rigidbody;
     private ConfigurableJoint _joint;
     private LineRenderer _lineRenderer;
+    private PlayerInput _playerInput;
 
     private void ApplyThrow()
     {
@@ -287,8 +290,24 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
             _joint = null;
         }
 
+        Vector3 horizontalDir;
+        if (_playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if (!Physics.Raycast(ray, out RaycastHit hitInfo))
+            {
+                Debug.LogError("Mouse raycast hit nothing");
+                return;
+            }
+            Vector3 worldPos = hitInfo.point;
+            horizontalDir = (worldPos - transform.position).normalized;
+        }
+        else
+        {
+            horizontalDir = transform.forward;
+        }
+
         float angleInRadians = _gtsoThrowSettings.ThrowAngle * Mathf.Deg2Rad;
-        Vector3 horizontalDir = transform.forward;
 
         _throwPower = Mathf.Clamp(_throwPower, _gtsoThrowSettings.MinThrowPower, _gtsoThrowSettings.MaxThrowPower);
 
@@ -340,19 +359,21 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
             switch (_gtsoThrowSettings.ThrowType)
             {
                 case ThrowType.PressToThrow:
-                    _previewTransform.localScale = new Vector3(1, .1f, _previewMaxZScale);
                     break;
                 case ThrowType.ChargeXTimeToThrow:
-                    _previewTransform.localScale = new Vector3(1, .1f, _previewMaxZScale * (_chargingThrowTime / _gtsoThrowSettings.MaxThrowChargeTime));
                     break;
                 case ThrowType.ChargeUntilMaxValueToThrow:
                     _chargingThrowTime = Mathf.Clamp(_chargingThrowTime, 0f, _gtsoThrowSettings.MaxThrowChargeTime);
                     _throwPower = _gtsoThrowSettings.MaxThrowPower * (_chargingThrowTime / _gtsoThrowSettings.MaxThrowChargeTime);
-                    _previewTransform.localScale = new Vector3(1, .1f, _previewMaxZScale * (_chargingThrowTime / _gtsoThrowSettings.MaxThrowChargeTime));
                     break;
                 case ThrowType.ChargeFreeToThrow:
-                    _throwPower = _gtsoThrowSettings.MaxThrowPower * Mathf.PingPong(_chargingThrowTime, _gtsoThrowSettings.MaxThrowChargeTime);
-                    _previewTransform.localScale = new Vector3(1, .1f, _previewMaxZScale * Mathf.PingPong(_chargingThrowTime, _gtsoThrowSettings.MaxThrowChargeTime));
+                    float currentPingpongValue = Mathf.PingPong(
+                        _chargingThrowTime, 
+                        _gtsoThrowSettings.MaxThrowChargeTime - _gtsoThrowSettings.MinThrowPower / _gtsoThrowSettings.MaxThrowPower
+                        ) / _gtsoThrowSettings.MaxThrowChargeTime;
+                    
+                    _throwPower = _gtsoThrowSettings.MaxThrowPower * (  _gtsoThrowSettings.MinThrowPower / _gtsoThrowSettings.MaxThrowPower + currentPingpongValue);
+    
                     break;
             }
 
@@ -374,14 +395,31 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
     private void UpdateThrowPreview()
     {
         float angleInRadians = _gtsoThrowSettings.ThrowAngle * Mathf.Deg2Rad;
-        Vector3 horizontalDir = transform.forward;
+        
+        Vector3 horizontalDir;
+        if (_playerInput.currentControlScheme == "Keyboard&Mouse")
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if (!Physics.Raycast(ray, out RaycastHit hitInfo))
+            {
+                Debug.LogError("Mouse raycast hit nothing");
+                return;
+            }
+            Vector3 worldPos = hitInfo.point;
+            horizontalDir = (worldPos - transform.position).normalized;
+        }
+        else
+        {
+            horizontalDir = transform.forward;
+        }
+        
         // Note: Check these pointer dereferences, they look incorrect
         // _throwPower = Mathf.Clamp(_throwPower, _gtsoThrowSettings.MinThrowPower, _gtsoThrowSettings.MaxThrowPower);
         float horizontalForce = _throwPower * Mathf.Cos(angleInRadians);
         float verticalForce = _throwPower * Mathf.Sin(angleInRadians);
         Vector3 force = (horizontalDir * horizontalForce) + (Vector3.up * verticalForce);
         Vector3 velocity = (force / _objectGrabbed.GetGrabbableComponent<GTGrabbableObject>().GetPhysicParams(EGrabbingState.Thrown).Mass);
-        float flightDuration = (2 * velocity.y) / Mathf.Abs(Physics.gravity.y);
+        float flightDuration = (2 * velocity.y) / Mathf.Abs(Physics.gravity.y) * 3;
 
         float stepTime = flightDuration / _lineResolution;
         List<Vector3> points = new List<Vector3>();
