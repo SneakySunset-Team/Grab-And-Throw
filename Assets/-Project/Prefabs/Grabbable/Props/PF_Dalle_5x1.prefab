@@ -341,9 +341,30 @@ PrefabInstance:
       propertyPath: serializationData.Prefab
       value: 
       objectReference: {fileID: 860690468064883216, guid: 3b06baf2997a58a408e15e07a1b38d71, type: 3}
+    - target: {fileID: 860690468064883216, guid: 3b06baf2997a58a408e15e07a1b38d71, type: 3}
+      propertyPath: serializationData.PrefabModifications.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 860690468064883216, guid: 3b06baf2997a58a408e15e07a1b38d71, type: 3}
+      propertyPath: 'serializationData.PrefabModifications.Array.data[0]'
+      value: '"path":"_physicsDictionaryOverride","add_keys":null,"remove_keys":{"$id":0,"$type":"System.Object[],
+        mscorlib","$rlength":1,"$rcontent":[{"$id":1,"$type":"EGrabbingState, Assembly-CSharp",0}]}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 860690468064883216, guid: 3b06baf2997a58a408e15e07a1b38d71, type: 3}
+      propertyPath: 'serializationData.PrefabModifications.Array.data[1]'
+      value: '"path":"_physicsDictionaryOverride.{0es}","value":null'
+      objectReference: {fileID: 0}
+    - target: {fileID: 860690468064883216, guid: 3b06baf2997a58a408e15e07a1b38d71, type: 3}
+      propertyPath: serializationData.PrefabModificationsReferencedUnityObjects.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2319542867281928393, guid: 3b06baf2997a58a408e15e07a1b38d71, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2392551564238753917, guid: 3b06baf2997a58a408e15e07a1b38d71, type: 3}
+      propertyPath: m_Mass
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5993706131043476569, guid: 3b06baf2997a58a408e15e07a1b38d71, type: 3}
       propertyPath: m_LocalPosition.z
@@ -351,11 +372,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7079549269584605634, guid: 3b06baf2997a58a408e15e07a1b38d71, type: 3}
       propertyPath: m_Name
-      value: PF_Planche_5x0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7910819832969175759, guid: 3b06baf2997a58a408e15e07a1b38d71, type: 3}
-      propertyPath: _platformID
-      value: potdefleur
+      value: PF_Dalle_5x1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
