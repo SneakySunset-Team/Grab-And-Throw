@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1acd14eeab956e740a063e1e8da3c244, type: 3}
   m_Name: ChargeUntilMaxValueThrowSettings
   m_EditorClassIdentifier: 
+  <MinThrowPower>k__BackingField: 0
   <MaxThrowPower>k__BackingField: 10
-  <ThrowType>k__BackingField: 2
+  <ThrowType>k__BackingField: 3
   <MaxThrowChargeTime>k__BackingField: 1
+  <ThrowAngle>k__BackingField: 0
+  <IsMovementDisabled>k__BackingField: 0

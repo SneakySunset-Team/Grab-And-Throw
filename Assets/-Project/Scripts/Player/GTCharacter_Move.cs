@@ -28,7 +28,7 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
             parent.ReleasePlayer();
             _rigidbody?.AddForce(_movementDictionary.MovementParamsDictionary[EMovementState.Grounded].JumpStrength * Vector3.up, ForceMode.Impulse);
         }
-        else
+        else if(_movementDictionary.MovementParamsDictionary.ContainsKey(_currentMovementState))
             _rigidbody?.AddForce(_movementDictionary.MovementParamsDictionary[_currentMovementState].JumpStrength * Vector3.up, ForceMode.Impulse);
     }
 
@@ -72,7 +72,7 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
     [SerializeField]
     private LayerMask _groundLayerMask;
 
-    private void Start()
+    private IEnumerator Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _grabbableComponent = GetComponent<GTGrabbableObject>();
@@ -86,7 +86,8 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
 
         OnMovementStateEnter(_currentMovementState);
 
-
+        yield return new WaitUntil(()=> Camera.main != null);
+        _camera = Camera.main;
     }
 
     private void OnDisable()
@@ -145,6 +146,7 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
     // ********** RESTRICTED ******************************
 
     /*  CharacterController _characterController;*/
+    private Camera _camera;
     private Rigidbody _rigidbody;
     GTGrabbableObject _grabbableComponent;
     private float _currentAcceleration;
@@ -370,7 +372,6 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
         { 
             if (gtObj.CurrentState == EGrabbingState.Thrown)
             {
-                Debug.Log("Stun");
                 Vector3 direction = (this.transform.position - gtObj.transform.position);
 
                 _grabbableComponent.Stun(1f);
