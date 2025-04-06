@@ -413,35 +413,70 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
             horizontalDir = transform.forward;
         }
         
-        // Note: Check these pointer dereferences, they look incorrect
-        // _throwPower = Mathf.Clamp(_throwPower, _gtsoThrowSettings.MinThrowPower, _gtsoThrowSettings.MaxThrowPower);
         float horizontalForce = _throwPower * Mathf.Cos(angleInRadians);
         float verticalForce = _throwPower * Mathf.Sin(angleInRadians);
         Vector3 force = (horizontalDir * horizontalForce) + (Vector3.up * verticalForce);
-        Vector3 velocity = (force / _objectGrabbed.GetGrabbableComponent<GTGrabbableObject>().GetPhysicParams(EGrabbingState.Thrown).Mass);
-        float flightDuration = (2 * velocity.y) / Mathf.Abs(Physics.gravity.y) * 3;
-
+        
+        // Get the grabbable component and its parameters
+        GTGrabbableObject grabbableObject = _objectGrabbed.GetGrabbableComponent<GTGrabbableObject>();
+        
+        GTPhysicsParams physicsParams = grabbableObject.GetPhysicParams(EGrabbingState.Thrown);
+        
+        float objectMass = physicsParams.Mass;
+        
+        // Check if gravity is enabled for this object
+        bool isGravityEnabled = !physicsParams.IsPhysicsGravityEnabled;
+        
+        // Get the constant force component (if it exists)
+        Vector3 constantForceVector = Vector3.up * physicsParams.GravityAdditionalStrength;
+        Vector3 constantAcceleration = constantForceVector / objectMass;
+        
+        // Initial velocity from throw
+        Vector3 velocity = force / objectMass;
+        
+        // Add gravity to the constant acceleration only if gravity is enabled
+        Vector3 totalAcceleration = constantAcceleration;
+        if (isGravityEnabled)
+        {
+            totalAcceleration += Physics.gravity;
+        }
+        
+        // Estimate flight duration based on whether gravity is enabled
+        float flightDuration;
+        if (isGravityEnabled)
+        {
+            flightDuration = EstimateFlightDuration(velocity, totalAcceleration);
+        }
+        else
+        {
+            // For objects without gravity, use a fixed time or distance-based estimation
+            // since they won't fall back down
+            flightDuration = EstimateNonGravityFlightDuration(velocity);
+        }
+        
         float stepTime = flightDuration / _lineResolution;
+        
         List<Vector3> points = new List<Vector3>();
         Vector3 startPos = _objectGrabbed.GetGrabbableComponent<Transform>().position;
         points.Add(startPos); // Add starting position
-
+        
         for (int i = 1; i < _lineResolution; i++)
         {
             float stepTimePassed = stepTime * i;
-            // Calculate position at this time step
-            Vector3 newPos = new Vector3(
-                startPos.x + velocity.x * stepTimePassed,
-                startPos.y + velocity.y * stepTimePassed + 0.5f * Physics.gravity.y * stepTimePassed * stepTimePassed,
-                startPos.z + velocity.z * stepTimePassed);
-
+            
+            // Calculate position using the equation of motion with constant acceleration:
+            // position = initialPosition + initialVelocity * time + 0.5 * acceleration * time^2
+            Vector3 newPos = startPos + 
+                            velocity * stepTimePassed + 
+                            0.5f * totalAcceleration * stepTimePassed * stepTimePassed;
+            
             // Cast ray from previous point to new point
             Vector3 direction = newPos - points[i - 1];
             float distance = direction.magnitude;
             RaycastHit[] hits = Physics.RaycastAll(points[i - 1], direction.normalized, distance);
-
+            
             Debug.DrawRay(points[i - 1], direction, Color.red);
-
+            
             bool isHit = false;
             foreach (RaycastHit hit in hits)
             {
@@ -453,12 +488,35 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
                     break;
                 }
             }
-
+            
             if (isHit) break;
             points.Add(newPos);
         }
-
+        
         _lineRenderer.positionCount = points.Count;
         _lineRenderer.SetPositions(points.ToArray());
+    }
+    
+    // Helper method to estimate flight duration with constant acceleration
+    private float EstimateFlightDuration(Vector3 initialVelocity, Vector3 acceleration)
+    {
+        // This is a heuristic - for a more accurate duration, you'd need to solve
+        // for when the trajectory intersects with the ground or other objects
+        float timeToReachPeak = Mathf.Abs(initialVelocity.y / acceleration.y);
+        return timeToReachPeak * 2.5f; // Multiply by a factor to ensure we see beyond the peak
+    }
+    
+    // Helper method for objects without gravity
+    private float EstimateNonGravityFlightDuration(Vector3 initialVelocity)
+    {
+        // For objects without gravity, we can estimate based on distance or a fixed time
+        // Here we use velocity magnitude to determine a reasonable flight time to show
+        float baseDistance = 20f; // Adjust based on your game's scale
+        float speedMagnitude = initialVelocity.magnitude;
+        
+        if (speedMagnitude < 0.001f)
+            return 3f; // Default duration if velocity is nearly zero
+            
+        return baseDistance / speedMagnitude;
     }
 }

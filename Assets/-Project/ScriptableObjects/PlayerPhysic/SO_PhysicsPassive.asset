@@ -17,7 +17,7 @@ MonoBehaviour:
   <Mass>k__BackingField: 700
   <GravityAdditionalStrength>k__BackingField: -5
   <PhysicsMaterial>k__BackingField: {fileID: 13400000, guid: 9a5e0fb1cd5f31b4c86405bfb1029e8d, type: 2}
-  <RigidbodyConstraints>k__BackingField: 0
+  <RigidbodyConstraints>k__BackingField: 56
   <PhysicsEcludeLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 0
