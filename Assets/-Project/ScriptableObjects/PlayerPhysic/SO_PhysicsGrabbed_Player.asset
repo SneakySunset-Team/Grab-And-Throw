@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02c622c4d6222594f9953f487ea38a6c, type: 3}
-  m_Name: SO_PhysicsThrown
+  m_Name: SO_PhysicsGrabbed_Player
   m_EditorClassIdentifier: 
   <IsPhysicsEnabled>k__BackingField: 1
-  <IsPhysicsGravityEnabled>k__BackingField: 1
+  <IsPhysicsGravityEnabled>k__BackingField: 0
   <Mass>k__BackingField: 1
-  <GravityAdditionalStrength>k__BackingField: -60
+  <GravityAdditionalStrength>k__BackingField: 0
   <PhysicsMaterial>k__BackingField: {fileID: 0}
-  <RigidbodyConstraints>k__BackingField: 40
+  <RigidbodyConstraints>k__BackingField: 0
   <PhysicsEcludeLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 0

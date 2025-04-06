@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <IsPhysicsEnabled>k__BackingField: 1
   <IsPhysicsGravityEnabled>k__BackingField: 0
-  <Mass>k__BackingField: 2
-  <GravityAdditionalStrength>k__BackingField: -7
+  <Mass>k__BackingField: 3
+  <GravityAdditionalStrength>k__BackingField: -3
+  <PhysicsMaterial>k__BackingField: {fileID: 0}
   <RigidbodyConstraints>k__BackingField: 40
   <PhysicsEcludeLayers>k__BackingField:
     serializedVersion: 2

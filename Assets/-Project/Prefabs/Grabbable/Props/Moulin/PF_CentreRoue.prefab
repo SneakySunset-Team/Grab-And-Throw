@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4401888492564336899}
   - component: {fileID: 1294543580183334175}
   - component: {fileID: 2185279160918851338}
-  - component: {fileID: 8209359393844550906}
   m_Layer: 0
   m_Name: Visuel
   m_TagString: Untagged
@@ -89,27 +88,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8209359393844550906
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2927932586626489020}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &2930478171250430394
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,7 +273,30 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: _physicsDictionaryOverride
-      Entry: 6
+      Entry: 7
+      Data: 4|UnityEngine.Rendering.SerializedDictionary`2[[EGrabbingState, Assembly-CSharp],[GTSO_PhysicsParams,
+        Assembly-CSharp]], Unity.RenderPipelines.Core.Runtime
+    - Name: comparer
+      Entry: 7
+      Data: 5|System.Collections.Generic.EnumEqualityComparer`1[[EGrabbingState,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
   _highlightMaterial: {fileID: 2100000, guid: 9db3bfa7a2a14404a83aaae1e3040e8e, type: 2}
   _physicsDictionary: {fileID: 11400000, guid: 6fbf367689460824690bb90b8b1ef02f, type: 2}

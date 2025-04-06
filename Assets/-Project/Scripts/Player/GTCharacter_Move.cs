@@ -26,10 +26,10 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
         if (parent != null && parent != GetComponent<GTGrabDetection>())
         {
             parent.ReleasePlayer();
-            _rigidbody?.AddForce(_movementDictionary.MovementParamsDictionary[EMovementState.Grounded].JumpStrength * Vector3.up, ForceMode.Impulse);
+            _rigidbody?.AddForce(_movementDictionary.MovementParamsDictionary[EMovementState.Grounded].JumpStrength * Vector3.up, ForceMode.VelocityChange);
         }
-        else if(_movementDictionary.MovementParamsDictionary.ContainsKey(_currentMovementState))
-            _rigidbody?.AddForce(_movementDictionary.MovementParamsDictionary[_currentMovementState].JumpStrength * Vector3.up, ForceMode.Impulse);
+        else
+            _rigidbody?.AddForce(_movementDictionary.MovementParamsDictionary[_currentMovementState].JumpStrength * Vector3.up, ForceMode.VelocityChange);
     }
 
     public bool IsGrounded()

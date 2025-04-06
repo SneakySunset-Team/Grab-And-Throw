@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_Water
+  m_Name: M_Sea
   m_Shader: {fileID: -6465566751694194690, guid: 4c5c8d64eb3b27d4e9bd44a9a1874f23, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -66,10 +66,10 @@ Material:
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _ExcludeFromTUAndAA: 0
-    - _FoamAmount: 0.66
-    - _FoamCutOff: 2.95
-    - _FoamScale: 38.32
-    - _FoamSpeed: 1.36
+    - _FoamAmount: 2
+    - _FoamCutOff: 1.5
+    - _FoamScale: 30
+    - _FoamSpeed: 1
     - _MaterialID: 1
     - _MaterialTypeMask: 2
     - _OpaqueCullMode: 2
