@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02c622c4d6222594f9953f487ea38a6c, type: 3}
   m_Name: SO_PhysicsSnapped
   m_EditorClassIdentifier: 
-  <IsPhysicsEnabled>k__BackingField: 1
+  <IsPhysicsEnabled>k__BackingField: 0
   <IsPhysicsGravityEnabled>k__BackingField: 1
   <Mass>k__BackingField: 200
   <GravityAdditionalStrength>k__BackingField: 0

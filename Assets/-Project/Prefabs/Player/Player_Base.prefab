@@ -574,7 +574,7 @@ GameObject:
   - component: {fileID: 8877632760691380498}
   m_Layer: 0
   m_Name: Player_Base
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -613,7 +613,8 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: d7e71b1fce9430a45a8294e917fff6ad, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -629,7 +630,42 @@ MonoBehaviour:
       Entry: 6
       Data: 
     - Name: _physicsDictionaryOverride
-      Entry: 6
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[EGrabbingState, Assembly-CSharp],[GTSO_PhysicsParams,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[EGrabbingState,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 10
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
       Data: 
   _highlightMaterial: {fileID: 2100000, guid: 9db3bfa7a2a14404a83aaae1e3040e8e, type: 2}
   _physicsDictionary: {fileID: 11400000, guid: 0225caec0ff9c5f44b1874f1f08d799b, type: 2}

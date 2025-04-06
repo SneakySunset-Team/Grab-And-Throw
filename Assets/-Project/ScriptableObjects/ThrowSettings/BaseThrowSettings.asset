@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BaseThrowSettings
   m_EditorClassIdentifier: 
   <MinThrowPower>k__BackingField: 10
-  <MaxThrowPower>k__BackingField: 30
+  <MaxThrowPower>k__BackingField: 25
   <ThrowType>k__BackingField: 2
   <MaxThrowChargeTime>k__BackingField: 0.4
   <ThrowAngle>k__BackingField: 45
