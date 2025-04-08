@@ -2,22 +2,18 @@ using Sirenix.Utilities;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class GTPlayerManager : GTSingleton<GTPlayerManager>
 {
-    void Start()
-    {
-        
-    }
-
     [SerializeField] private Dictionary<EPlayerTag, GTPlayerParams> _playerData;
     [SerializeField] private CinemachineTargetGroup _targetGroup;
     [SerializeField] private EPlayerTag[] _playerTagOrder;
     private int _playerTagCurrentNum;
-    private int _playerStartTargetIndex;
+    [SerializeField, ReadOnly] private int _playerStartTargetIndex;
     private PlayerInputManager _playerInputManager;
 
     protected override void Awake()
@@ -98,6 +94,8 @@ public class GTPlayerManager : GTSingleton<GTPlayerManager>
     }
 
     public void SetPlayerStartIndex(int index) => _playerStartTargetIndex = index;
+
+    public int GetPlayerStartIndex() => _playerStartTargetIndex;
 }
 
 [System.Serializable]

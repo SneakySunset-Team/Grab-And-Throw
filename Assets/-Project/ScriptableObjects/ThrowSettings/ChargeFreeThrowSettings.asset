@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <MinThrowPower>k__BackingField: 5
   <MaxThrowPower>k__BackingField: 15
-  <ThrowType>k__BackingField: 1
+  <ThrowType>k__BackingField: 2
   <MaxThrowChargeTime>k__BackingField: 1
   <ThrowAngle>k__BackingField: 56.4
   <IsMovementDisabled>k__BackingField: 0
