@@ -732,6 +732,8 @@ MonoBehaviour:
     m_Bits: 119
   _detectionCenterOffset: {x: 0, y: 0.2, z: 0}
   _debugDetectionSphere: 1
+  _maxNumOfDetectionInRadius: 3
+  _targetIndex: 0
 --- !u!114 &6219329069211287196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -925,6 +927,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: fcecc6e3-86ba-404f-a831-d421ff0731c5
     m_ActionName: 'Player/GrabThrow[/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1735884947753352567}
+        m_TargetAssemblyTypeName: GTPlayerInput_Controller, Assembly-CSharp
+        m_MethodName: OnSwitchDetectionTarget_RotateItem
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ed52fd92-f683-4b86-9afb-1c06bda0a0d4
+    m_ActionName: Player/Rotate
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

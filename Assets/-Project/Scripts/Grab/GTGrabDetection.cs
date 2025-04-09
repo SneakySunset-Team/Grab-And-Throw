@@ -76,7 +76,6 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
         Reset();
     }
 
-
     public void Release()
     {
         _previewTransform.localScale = Vector3.zero;
@@ -122,6 +121,24 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
         GetComponentInChildren<RigBuilder>().Build();
     }
 
+    public void SwitchTarget()
+    {
+        _targetIndex = (_targetIndex + 1) % _maxNumOfDetectionInRadius;
+    }
+    
+    public void RotateHeldItem()
+    {
+        if (_objectGrabbed != null && _objectGrabbed.GetGrabbableComponent<GTPlayerTag>() == null)
+        {
+            var joint = _objectGrabbed.GetGrabbableComponent<ConfigurableJoint>();
+            joint.angularYMotion = ConfigurableJointMotion.Free;
+            var rb = _objectGrabbed.GetGrabbableComponent<Rigidbody>();
+            Quaternion rotation = rb.rotation * Quaternion.Euler(0, 90, 0);
+            rb.MoveRotation(rotation);
+            StartCoroutine(RelockJointCoroutine(joint));
+        }
+    }
+    
     public void OnThrowInput()
     {
         // If Holding nothing return
@@ -167,6 +184,7 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
         return _objectGrabbed != null;
     }
 
+  
     public T GetGrabberComponent<T>()
     {
         return GetComponent<T>();
@@ -191,6 +209,10 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
     [SerializeField, BoxGroup("Detection")] private Vector3 _detectionCenterOffset;
     [SerializeField, BoxGroup("Detection")] private bool _debugDetectionSphere;
 
+    [SerializeField, BoxGroup("Detection"), Range(1, 10)] private int _maxNumOfDetectionInRadius;
+    [SerializeField, BoxGroup("Detection"), ReadOnly] private int _targetIndex;
+    [SerializeField, BoxGroup("Detection"), ReadOnly] private List<IGrabbable> _detectedGrabbables;
+    
 
     private void Start()
     {
@@ -226,9 +248,40 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
             _lineRenderer.positionCount = 0;
         }
 
-        if (Physics.SphereCast(transform.position + _detectionCenterOffset, _detectionRadius, transform.forward, out RaycastHit hitInfo, _detectionRange, _detectionLayer, QueryTriggerInteraction.Ignore))
+        int hitCount = Physics.SphereCastNonAlloc(
+            transform.position + _detectionCenterOffset,
+            _detectionRadius,
+            transform.forward,
+            _raycastHitCache,
+            _detectionRange,
+            _detectionLayer,
+            QueryTriggerInteraction.Ignore);
+
+
+
+        if (hitCount != 0)
         {
-            var grabbable = hitInfo.transform.GetComponent<IGrabbable>();
+            _grabbableObjectsInRange.Clear();
+            _grabbableObjectsInRange.Capacity = hitCount;
+            for (int i = 0; i < Mathf.Min(hitCount, _maxNumOfDetectionInRadius); i++)
+            {
+                IGrabbable temp = _raycastHitCache[i].transform.GetComponent<IGrabbable>();
+                if (temp != null)
+                {
+                    if (temp == _myGrabbable)
+                    {
+                        continue;
+                    }
+
+                    _grabbableObjectsInRange.Add(temp);
+                }
+            }
+        }
+        
+        if(_grabbableObjectsInRange.Count() != 0)
+        {
+            IGrabbable grabbable = _grabbableObjectsInRange[_targetIndex % _grabbableObjectsInRange.Count];
+            
             if (grabbable != _nearestGrabbableObject)
             {
                 if (_nearestGrabbableObject != null)
@@ -278,6 +331,8 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
     private ConfigurableJoint _joint;
     private LineRenderer _lineRenderer;
     private PlayerInput _playerInput;
+    private RaycastHit[] _raycastHitCache = new RaycastHit[10];
+
 
     private void ApplyThrow()
     {
@@ -519,4 +574,12 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
             
         return baseDistance / speedMagnitude;
     }
+    
+    IEnumerator RelockJointCoroutine(ConfigurableJoint joint)
+    {
+        yield return new WaitForFixedUpdate();
+        
+        _objectGrabbed.ReinitializeJoint();
+    }
+
 }

@@ -10,6 +10,10 @@ public interface IGrabber
 
     public bool IsGrabbing();
 
+    public void SwitchTarget();
+
+    public void RotateHeldItem();
+
     public void OnThrowInput();
 
     public IGrabbable GetGrabbedObject();
