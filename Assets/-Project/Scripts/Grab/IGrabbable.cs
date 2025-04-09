@@ -22,4 +22,6 @@ public interface IGrabbable
     public void Stun(float stunDuration);
 
     public T GetGrabbableComponent<T>();
+    
+    public void ReinitializeJoint();
 }

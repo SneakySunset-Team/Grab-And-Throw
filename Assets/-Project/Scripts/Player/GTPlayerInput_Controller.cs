@@ -53,6 +53,21 @@ public class GTPlayerInput_Controller : MonoBehaviour
         }
     }
 
+    public void OnSwitchDetectionTarget_RotateItem(InputAction.CallbackContext cbx)
+    {
+        if (cbx.started)
+        {
+            if (_grabberComponent.IsGrabbing())
+            {
+                _grabberComponent.RotateHeldItem();
+            }
+            else
+            {
+                _grabberComponent.SwitchTarget();
+            }
+        }
+    }
+
     public void OnAttack(InputAction.CallbackContext cbx)
     {
         if (cbx.started)

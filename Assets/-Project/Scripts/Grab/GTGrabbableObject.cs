@@ -64,9 +64,8 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
         this.transform.SetParent(grabberTransformParent, false);
         this.transform.position = grabberTransformParent.position;
         _holder = grabber;
-        _joint = gameObject.AddComponent<ConfigurableJoint>();
-        _jointParams.InitializeJoint(ref _joint);
-        _joint.connectedBody = grabber.GetGrabberComponent<Rigidbody>();
+        
+        ReinitializeJoint();
 
         OnGrabbedAction?.Invoke(grabber);
         if(_stunEnum != null)
@@ -171,6 +170,17 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
     public T GetGrabbableComponent<T>()
     {
         return GetComponent<T>();
+    }
+
+    public void ReinitializeJoint()
+    {
+        if (_joint != null)
+        {
+            Destroy(_joint);
+        }
+        _joint = gameObject.AddComponent<ConfigurableJoint>();
+        _jointParams.InitializeJoint(ref _joint);
+        _joint.connectedBody = _holder.GetGrabberComponent<Rigidbody>();
     }
 
     public (Transform, Transform) GetGrabPoints()
