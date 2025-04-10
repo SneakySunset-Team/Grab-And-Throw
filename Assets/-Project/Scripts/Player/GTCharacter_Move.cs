@@ -132,7 +132,7 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
             ComputeMovement();
             ApplyRotation(_currentVelocity);
         }
-        else if (_currentMovementState == EMovementState.Grounded)
+        else if (_currentMovementState != EMovementState.Disabled)
         {
             ComputeGravity();
             ComputeMovement();
