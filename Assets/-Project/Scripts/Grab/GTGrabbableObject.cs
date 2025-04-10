@@ -99,11 +99,14 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
         }
         this.transform.SetParent(null, true);
         _rb.AddForce(force, ForceMode.Impulse);
-        StartCoroutine(ClearIgnoreCollisionsEnum());
+        //StartCoroutine(ClearIgnoreCollisionsEnum());
     }
 
     public void OnReleased()
     {
+        if (_myGrabber == null) return;
+
+
         if (_joint != null)
         {
             Destroy(_joint);
@@ -120,7 +123,9 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
             _grabberGrabbable = null;
         }
         this.transform.SetParent(null, true);
-        StartCoroutine(ClearIgnoreCollisionsEnum());
+        _myGrabber = null;
+        _grabberGrabbable = null;
+        //StartCoroutine(ClearIgnoreCollisionsEnum());
     }
 
     public virtual void Stun(float stunDuration)

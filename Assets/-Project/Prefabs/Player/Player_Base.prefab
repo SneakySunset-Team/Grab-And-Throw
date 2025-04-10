@@ -1141,6 +1141,7 @@ MonoBehaviour:
   _groundLayerMask:
     serializedVersion: 2
     m_Bits: 64
+  _jumpCacheInDuration: 2
   _moveVisualEffect: {fileID: 9152201643862780928}
   _landVisualEffect: {fileID: 6210171178018269012}
 --- !u!114 &1735884947753352567

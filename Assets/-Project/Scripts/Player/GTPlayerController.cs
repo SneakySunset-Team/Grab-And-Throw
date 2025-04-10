@@ -5,10 +5,14 @@ public class GTPlayerController : MonoBehaviour
 {
     [SerializeField] private Renderer _playerRenderer;
     [SerializeField] private VisualEffect _spawnVfx;
+    private IGrabber _grabber;
+    private IGrabbable _grabbable;
 
     private void Start()
     {
         GTPlayerManager.Instance.RegisterPlayer(this);
+        _grabbable = GetComponent<IGrabbable>();
+        _grabber = GetComponent<IGrabber>();
     }
 
     public void SetMaterial(Material material)
@@ -24,5 +28,11 @@ public class GTPlayerController : MonoBehaviour
     public void OnSpawn()
     {
         _spawnVfx.Play();
+    }
+
+    public void KillPlayer()
+    {
+        _grabber.Release();
+        GTPlayerManager.Instance.SetPlayerPosition(transform);
     }
 }
