@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.VFX;
 using static GTCharacter_Move;
 
 public enum EMovementState { Grounded, AirBorn, Disabled, Aiming, Grabbed };
@@ -22,14 +23,19 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
 
     public void OnJump()
     {
-        GTGrabDetection parent = transform.root.GetComponent<GTGrabDetection>();
-        if (parent != null && parent != GetComponent<GTGrabDetection>())
+        if(_currentMovementState != EMovementState.Grounded && _currentMovementState != EMovementState.Aiming)
         {
-            parent.ReleasePlayer();
-            _rigidbody?.AddForce(_movementDictionary.MovementParamsDictionary[EMovementState.Grounded].JumpStrength * Vector3.up, ForceMode.VelocityChange);
+            if(_jumpCacheInEnum != null)
+            {
+                StopCoroutine(_jumpCacheInEnum);
+            }
+            _jumpCacheInEnum = JumpCacheCoroutine();
+            StartCoroutine(_jumpCacheInEnum);
+            return;
         }
-        else
-            _rigidbody?.AddForce(_movementDictionary.MovementParamsDictionary[_currentMovementState].JumpStrength * Vector3.up, ForceMode.VelocityChange);
+
+        ApplyJump();
+
     }
 
     public bool IsGrounded()
@@ -40,8 +46,8 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
     public void ChangeState(EMovementState newState)
     {
         OnStateExitEvent?.Invoke(_currentMovementState);
-        OnStateEnterEvent?.Invoke(newState);
         _currentMovementState = newState;
+        OnStateEnterEvent?.Invoke(newState);
     }
 
     public void SetStateToCached()
@@ -71,6 +77,16 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
 
     [SerializeField]
     private LayerMask _groundLayerMask;
+
+    [SerializeField]
+    private float _jumpCacheInDuration;
+
+    [SerializeField]
+    private VisualEffect _moveVisualEffect;
+
+    [SerializeField]
+    private VisualEffect _landVisualEffect;
+
 
     private IEnumerator Start()
     {
@@ -106,6 +122,12 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
         OnMovementStateTick(Time.fixedDeltaTime);
 
 
+        if(_isGrounded && !_previousGrounded)
+        {
+            _landVisualEffect.Play();
+        }
+        _previousGrounded = _isGrounded;
+
         if (_currentMovementState == EMovementState.Aiming)
         {
             ApplyRotation(new Vector3(InputMovementDirection.x, 0, InputMovementDirection.y));  
@@ -119,14 +141,22 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
             ComputeMovement();
             ApplyRotation(_currentVelocity);
         }
-        else if (_currentMovementState != EMovementState.Disabled && _currentMovementState != EMovementState.Aiming)
+        else if (_currentMovementState != EMovementState.Disabled)
         {
             ComputeGravity();
             ComputeMovement();
             ApplyMovement();
             ApplyRotation(_currentVelocity);
+            if(_previousHorizontalVelocity == Vector3.zero && _currentVelocity != Vector3.zero)
+            {
+                _moveVisualEffect.Play();
+            }
+            else if (_previousHorizontalVelocity != Vector3.zero && _currentVelocity == Vector3.zero)
+            {
+                _moveVisualEffect.Stop();
+            }
         }
-
+        _previousHorizontalVelocity = _currentVelocity;
     }
 
     private void Update()
@@ -156,10 +186,12 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
     private Transform _platformTransform;
     private Vector3 _platformPreviousPosition;
     [ShowInInspector]
-    bool _isGrounded;
-    Rigidbody _platformRb;
-    float _yVelocityCounter;
-
+    private bool _isGrounded;
+    private bool _previousGrounded;
+    private Rigidbody _platformRb;
+    private float _yVelocityCounter;
+    private Vector3 _previousHorizontalVelocity;
+    private IEnumerator _jumpCacheInEnum;
     private List<Collider> _grounds = new List<Collider>();
 
     private void ComputeGravity()
@@ -259,17 +291,26 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
         switch (newState)
         {
             case EMovementState.Grounded:
-                //_characterController.enabled = true;
+                if (_currentVelocity != Vector3.zero)
+                {
+                    _moveVisualEffect.Play();
+                }
+                if(_jumpCacheInEnum != null)
+                {
+                    ApplyJump();
+                    _jumpCacheInEnum = null;
+                }
                 break;
             case EMovementState.AirBorn:
                 _yVelocityCounter = _rigidbody.linearVelocity.y;
-                //_characterController.enabled = true;
                 break;
             case EMovementState.Disabled:
-                //_characterController.enabled = false;
                 break;
             case EMovementState.Aiming:
                 _yVelocityCounter = _rigidbody.linearVelocity.y;
+                break;
+            case EMovementState.Grabbed:
+                _rigidbody.linearVelocity = Vector3.zero;
                 break;
         }
 
@@ -332,6 +373,7 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
         switch(_currentMovementState)
         {
             case EMovementState.Grounded:
+                _moveVisualEffect.Stop();
                 break;
             case EMovementState.AirBorn:
                 break;
@@ -340,6 +382,18 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
             case EMovementState.Aiming:
                 break;
         }
+    }
+
+    private void ApplyJump()
+    {
+        GTGrabDetection parent = transform.root.GetComponent<GTGrabDetection>();
+        if (parent != null && parent != GetComponent<GTGrabDetection>())
+        {
+            parent.ReleasePlayer();
+            _rigidbody?.AddForce(_movementDictionary.MovementParamsDictionary[EMovementState.Grounded].JumpStrength * Vector3.up, ForceMode.VelocityChange);
+        }
+        else
+            _rigidbody?.AddForce(_movementDictionary.MovementParamsDictionary[_currentMovementState].JumpStrength * Vector3.up, ForceMode.VelocityChange);
     }
 
     private void OnCollisionStay(Collision collision)
@@ -390,6 +444,12 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
                 _isGrounded = false;
             }
         }
+    }
+
+    private IEnumerator JumpCacheCoroutine()
+    {
+        yield return new WaitForSeconds(_jumpCacheInDuration);
+        _jumpCacheInEnum = null;
     }
 }
 

@@ -78,6 +78,8 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
 
     public void Release()
     {
+        if(_objectGrabbed == null) return;
+
         _previewTransform.localScale = Vector3.zero;
         _isChargingThrow = false;
 
@@ -87,6 +89,7 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
             _joint = null;
         }
 
+        _objectGrabbed.OnReleased();
         _objectGrabbed = null;
         Reset();
     }

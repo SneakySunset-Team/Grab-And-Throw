@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class GTPlayerManager : GTSingleton<GTPlayerManager>
 {
@@ -15,7 +16,9 @@ public class GTPlayerManager : GTSingleton<GTPlayerManager>
     private int _playerTagCurrentNum;
     [SerializeField, ReadOnly] private int _playerStartTargetIndex;
     private PlayerInputManager _playerInputManager;
-
+    [SerializeField] private CinemachineCamera _camera;
+    private bool _hasFirstPlayerJoined = false;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -39,10 +42,9 @@ public class GTPlayerManager : GTSingleton<GTPlayerManager>
     public void SetPlayerPosition(Transform playerTransform)
     {
         EPlayerTag playerTag = playerTransform.GetComponent<GTPlayerTag>().GetPlayerTag();
-        playerTransform.position =
-
         playerTransform.position = _playerData[playerTag].PlayerStart == null ?
             transform.position : _playerData[playerTag].PlayerStart[_playerStartTargetIndex].position;
+        playerTransform.GetComponent<GTPlayerController>().OnSpawn();
     }
 
     public void RegisterPlayerStart(GTPlayerStart playerStart)
@@ -57,6 +59,11 @@ public class GTPlayerManager : GTSingleton<GTPlayerManager>
 
     public void RegisterPlayer(GTPlayerController player)
     {
+        if (!_hasFirstPlayerJoined)
+        {
+            _hasFirstPlayerJoined = true;
+            _camera.Priority = 1;
+        }
         EPlayerTag playerTag = player.GetComponent<GTPlayerTag>().GetPlayerTag();
         if (_targetGroup)
             _targetGroup.AddMember(player.transform, 1, 3);

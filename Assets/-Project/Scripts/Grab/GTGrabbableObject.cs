@@ -99,11 +99,14 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
         }
         this.transform.SetParent(null, true);
         _rb.AddForce(force, ForceMode.Impulse);
-        StartCoroutine(ClearIgnoreCollisionsEnum());
+        //StartCoroutine(ClearIgnoreCollisionsEnum());
     }
 
     public void OnReleased()
     {
+        if (_myGrabber == null) return;
+
+
         if (_joint != null)
         {
             Destroy(_joint);
@@ -120,7 +123,9 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
             _grabberGrabbable = null;
         }
         this.transform.SetParent(null, true);
-        StartCoroutine(ClearIgnoreCollisionsEnum());
+        _myGrabber = null;
+        _grabberGrabbable = null;
+        //StartCoroutine(ClearIgnoreCollisionsEnum());
     }
 
     public virtual void Stun(float stunDuration)
@@ -247,6 +252,8 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
     [SerializeField] private Transform _GrabPointLeft;
     [SerializeField] private Transform _GrabPointRight;
 
+    [SerializeField] private TrailRenderer _thrownTrailRenderer;
+
     protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -281,7 +288,9 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
         OnStateEnterEvent -= OnStateEnter;
         OnStateExitEvent -= OnStateExit;
     }
-    
+
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (CurrentState == EGrabbingState.Thrown)
@@ -372,14 +381,42 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
 
     private void OnStateEnter(EGrabbingState newState)
     {
+
         ChangePhysicState(newState);
+
+        switch (newState)
+        {
+            case EGrabbingState.Thrown:
+                if(_thrownTrailRenderer != null)
+                {
+                    _thrownTrailRenderer.enabled = true;
+                }
+                break;
+            default:
+                break;
+        }
+
     }
 
     private void OnStateExit(EGrabbingState oldState)
     {
+        switch (oldState)
+        {
+            case EGrabbingState.Thrown:
+                if (_thrownTrailRenderer != null)
+                {
+                    _thrownTrailRenderer.enabled = false;
+                }
+                break;
+            case EGrabbingState.Grabbed:
+                SetFocused(false);
+                break;
+            default:
+                break;
+        }
+
         if (oldState == EGrabbingState.Grabbed)
         {
-            SetFocused(false);
         }
     }
 
