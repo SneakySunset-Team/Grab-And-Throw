@@ -1,9 +1,12 @@
 using System;
 using Sirenix.Utilities;
+using TMPro;
 using UnityEngine;
 
 public class GTCheatManager : GTSingleton<GTCheatManager>
 {
+    [SerializeField] TextMeshProUGUI _spawnPointIdTxt;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
@@ -21,5 +24,6 @@ public class GTCheatManager : GTSingleton<GTCheatManager>
                 maxIndex = a.PlayerStartIndex;
         });
         GTPlayerManager.Instance.SetPlayerStartIndex(((GTPlayerManager.Instance.GetPlayerStartIndex() + 1) % (maxIndex + 1)));
+        _spawnPointIdTxt.text = $"Respawn Id : {GTPlayerManager.Instance.GetPlayerStartIndex()}";
     }
 }

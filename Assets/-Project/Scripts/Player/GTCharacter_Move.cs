@@ -101,7 +101,7 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
         OnStateExitEvent += OnMovementStateExit;
 
         OnMovementStateEnter(_currentMovementState);
-
+        _pointTest = new GameObject().transform;
         yield return new WaitUntil(()=> Camera.main != null);
         _camera = Camera.main;
     }
@@ -193,6 +193,7 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
     private Vector3 _previousHorizontalVelocity;
     private IEnumerator _jumpCacheInEnum;
     private List<Collider> _grounds = new List<Collider>();
+    private Transform _pointTest;
 
     private void ComputeGravity()
     {
@@ -320,7 +321,7 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
     {
         if (_platformTransform != null)
         {
-            Vector3 delta = _platformTransform.position - _platformPreviousPosition;
+            Vector3 delta = _pointTest.position - _platformPreviousPosition;
             delta.y = delta.magnitude > 1 ? delta.y : 0;
             _rigidbody.MovePosition(transform.position + delta);
             transform.position += delta;
@@ -337,11 +338,14 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
                         _platformPreviousPosition = rb.linearVelocity;
                     }*/
                     _platformTransform = hit.transform;
-                    _platformPreviousPosition = hit.transform.position;
+                    _pointTest.parent = hit.transform;
+                    _pointTest.position = hit.point;
+                    _platformPreviousPosition = _pointTest.position;
                 }
                 else
                 {
                     _platformTransform = null;
+                    _pointTest.parent = null;
                 }
                 break;
             case EMovementState.AirBorn:
@@ -424,7 +428,7 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
         GTGrabbableObject gtObj = collision.transform.GetComponent<GTGrabbableObject>();
         if (gtObj != null)
         { 
-            if (gtObj.CurrentState == EGrabbingState.Thrown)
+            if (gtObj.CurrentState == EGrabbingState.Thrown && gtObj.GetComponent<Rigidbody>().linearVelocity.magnitude > 3)
             {
                 Vector3 direction = (this.transform.position - gtObj.transform.position);
 

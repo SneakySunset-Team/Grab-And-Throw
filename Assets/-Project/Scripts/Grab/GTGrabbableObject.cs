@@ -104,7 +104,8 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
 
     public void OnReleased()
     {
-        if (_myGrabber == null) return;
+
+        if (_grabberGrabbable == null) return;
 
 
         if (_joint != null)

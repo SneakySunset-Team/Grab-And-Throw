@@ -17,4 +17,4 @@ MonoBehaviour:
   <ThrowType>k__BackingField: 2
   <MaxThrowChargeTime>k__BackingField: 0.5
   <ThrowAngle>k__BackingField: 45
-  <IsMovementDisabled>k__BackingField: 1
+  <IsMovementDisabled>k__BackingField: 0

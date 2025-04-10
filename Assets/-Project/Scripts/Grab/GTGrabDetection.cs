@@ -250,6 +250,11 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
         {
             _lineRenderer.positionCount = 0;
         }
+        
+        if(_objectGrabbed != null)
+        {
+            return;
+        }
 
         int hitCount = Physics.SphereCastNonAlloc(
             transform.position + _detectionCenterOffset,

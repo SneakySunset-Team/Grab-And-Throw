@@ -16,4 +16,4 @@ MonoBehaviour:
   <Acceleration>k__BackingField: 0.4
   <Deceleration>k__BackingField: 0.05
   <JumpStrength>k__BackingField: 12
-  <GravityMultiplier>k__BackingField: 1
+  <GravityMultiplier>k__BackingField: 0.3

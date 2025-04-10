@@ -18,19 +18,27 @@ public class GTPlayerManager : GTSingleton<GTPlayerManager>
     private PlayerInputManager _playerInputManager;
     [SerializeField] private CinemachineCamera _camera;
     private bool _hasFirstPlayerJoined = false;
-    
+    private Dictionary<EPlayerTag, GTPlayerParams> _startingPlayerData;
+
     protected override void Awake()
     {
         base.Awake();
+        if (_startingPlayerData == null)
+        {
+            _startingPlayerData = new Dictionary<EPlayerTag, GTPlayerParams>(_playerData);
+        }
         _playerInputManager = GetComponent<PlayerInputManager>();
         _playerInputManager.playerPrefab = _playerData[_playerTagOrder[_playerTagCurrentNum]].PlayerPrefab;
         _playerTagCurrentNum++;
+
         _playerInputManager.onPlayerJoined += OnPlayerJoined;
+        //GTSceneManager.OnSceneReloadEvent += OnSceneReload;
     }
 
     private void OnDestroy()
     {
         _playerInputManager.onPlayerJoined += OnPlayerJoined;
+        //GTSceneManager.OnSceneReloadEvent -= OnSceneReload;
     }
 
     private void OnPlayerJoined(PlayerInput playerInput)
@@ -49,6 +57,7 @@ public class GTPlayerManager : GTSingleton<GTPlayerManager>
 
     public void RegisterPlayerStart(GTPlayerStart playerStart)
     {
+
         if (!_playerData.ContainsKey(playerStart.TargetPlayerTag))
         {
             Debug.LogError($"No Key {playerStart.TargetPlayerTag} in PlayerParams");
@@ -103,6 +112,11 @@ public class GTPlayerManager : GTSingleton<GTPlayerManager>
     public void SetPlayerStartIndex(int index) => _playerStartTargetIndex = index;
 
     public int GetPlayerStartIndex() => _playerStartTargetIndex;
+
+    private void OnSceneReload()
+    {
+        _playerData = new Dictionary<EPlayerTag, GTPlayerParams>(_startingPlayerData);
+    }
 }
 
 [System.Serializable]
