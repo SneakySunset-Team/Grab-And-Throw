@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class GTPlayerManager : GTSingleton<GTPlayerManager>
 {
@@ -41,10 +42,9 @@ public class GTPlayerManager : GTSingleton<GTPlayerManager>
     public void SetPlayerPosition(Transform playerTransform)
     {
         EPlayerTag playerTag = playerTransform.GetComponent<GTPlayerTag>().GetPlayerTag();
-        playerTransform.position =
-
         playerTransform.position = _playerData[playerTag].PlayerStart == null ?
             transform.position : _playerData[playerTag].PlayerStart[_playerStartTargetIndex].position;
+        playerTransform.GetComponent<GTPlayerController>().OnSpawn();
     }
 
     public void RegisterPlayerStart(GTPlayerStart playerStart)

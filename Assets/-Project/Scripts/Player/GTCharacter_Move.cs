@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.VFX;
 using static GTCharacter_Move;
 
 public enum EMovementState { Grounded, AirBorn, Disabled, Aiming, Grabbed };
@@ -72,6 +73,12 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
     [SerializeField]
     private LayerMask _groundLayerMask;
 
+    [SerializeField]
+    private VisualEffect _moveVisualEffect;
+
+    [SerializeField]
+    private VisualEffect _landVisualEffect; 
+
     private IEnumerator Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -106,6 +113,12 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
         OnMovementStateTick(Time.fixedDeltaTime);
 
 
+        if(_isGrounded && !_previousGrounded)
+        {
+            _landVisualEffect.Play();
+        }
+        _previousGrounded = _isGrounded;
+
         if (_currentMovementState == EMovementState.Aiming)
         {
             ApplyRotation(new Vector3(InputMovementDirection.x, 0, InputMovementDirection.y));  
@@ -119,14 +132,22 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
             ComputeMovement();
             ApplyRotation(_currentVelocity);
         }
-        else if (_currentMovementState != EMovementState.Disabled && _currentMovementState != EMovementState.Aiming)
+        else if (_currentMovementState == EMovementState.Grounded)
         {
             ComputeGravity();
             ComputeMovement();
             ApplyMovement();
             ApplyRotation(_currentVelocity);
+            if(_previousHorizontalVelocity == Vector3.zero && _currentVelocity != Vector3.zero)
+            {
+                _moveVisualEffect.Play();
+            }
+            else if (_previousHorizontalVelocity != Vector3.zero && _currentVelocity == Vector3.zero)
+            {
+                _moveVisualEffect.Stop();
+            }
         }
-
+        _previousHorizontalVelocity = _currentVelocity;
     }
 
     private void Update()
@@ -156,9 +177,11 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
     private Transform _platformTransform;
     private Vector3 _platformPreviousPosition;
     [ShowInInspector]
-    bool _isGrounded;
-    Rigidbody _platformRb;
-    float _yVelocityCounter;
+    private bool _isGrounded;
+    private bool _previousGrounded;
+    private Rigidbody _platformRb;
+    private float _yVelocityCounter;
+    private Vector3 _previousHorizontalVelocity;
 
     private List<Collider> _grounds = new List<Collider>();
 
@@ -259,6 +282,10 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
         switch (newState)
         {
             case EMovementState.Grounded:
+                if (_currentVelocity != Vector3.zero)
+                {
+                    _moveVisualEffect.Play();
+                }
                 //_characterController.enabled = true;
                 break;
             case EMovementState.AirBorn:
@@ -332,6 +359,7 @@ public class GTCharacter_Move : SerializedMonoBehaviour, IMovement
         switch(_currentMovementState)
         {
             case EMovementState.Grounded:
+                _moveVisualEffect.Stop();
                 break;
             case EMovementState.AirBorn:
                 break;

@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class GTPlayerController : MonoBehaviour
 {
     [SerializeField] private Renderer _playerRenderer;
+    [SerializeField] private VisualEffect _spawnVfx;
 
     private void Start()
     {
@@ -17,5 +19,10 @@ public class GTPlayerController : MonoBehaviour
     private void OnDestroy()
     {
         GTPlayerManager.Instance.UnregisterPlayer(this);
+    }
+
+    public void OnSpawn()
+    {
+        _spawnVfx.Play();
     }
 }
