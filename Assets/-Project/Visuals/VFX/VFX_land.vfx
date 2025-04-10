@@ -36,8 +36,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: -49
     y: 326
-    width: 789
-    height: 2287
+    width: 787
+    height: 2275
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1990,7 +1990,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.025
+      m_SerializableObject: 0.0125
     m_Space: -1
   m_Property:
     name: A
@@ -2024,7 +2024,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.5
+      m_SerializableObject: 0.25
     m_Space: -1
   m_Property:
     name: B
@@ -2804,7 +2804,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":1.6368061304092408,"g":0.8324328064918518,"b":0.36991819739341738,"a":1.0}'
+      m_SerializableObject: '{"r":2.0,"g":1.1588492393493653,"b":0.6799999475479126,"a":1.0}'
     m_Space: -1
   m_Property:
     name: _Couleur

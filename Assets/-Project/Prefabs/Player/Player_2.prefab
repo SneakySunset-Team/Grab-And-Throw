@@ -16,14 +16,6 @@ PrefabInstance:
       propertyPath: _playerTag
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2991408276297674392, guid: 4570a05beb9366a438f94703de6ff8e4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2991408276297674392, guid: 4570a05beb9366a438f94703de6ff8e4, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3242140913957284623, guid: 4570a05beb9366a438f94703de6ff8e4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -72,30 +64,6 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 334944dfb50f87f41bcad2183730f3a0, type: 2}
-    - target: {fileID: 7801473559540116524, guid: 4570a05beb9366a438f94703de6ff8e4, type: 3}
-      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801473559540116524, guid: 4570a05beb9366a438f94703de6ff8e4, type: 3}
-      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Name
-      value: Couleur
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801473559540116524, guid: 4570a05beb9366a438f94703de6ff8e4, type: 3}
-      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801473559540116524, guid: 4570a05beb9366a438f94703de6ff8e4, type: 3}
-      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.y
-      value: 0.8156855
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801473559540116524, guid: 4570a05beb9366a438f94703de6ff8e4, type: 3}
-      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Value.z
-      value: 2.9960775
-      objectReference: {fileID: 0}
-    - target: {fileID: 7801473559540116524, guid: 4570a05beb9366a438f94703de6ff8e4, type: 3}
-      propertyPath: m_PropertySheet.m_Vector4f.m_Array.Array.data[0].m_Overridden
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7993046517758672206, guid: 4570a05beb9366a438f94703de6ff8e4, type: 3}
       propertyPath: m_Name
       value: Player_2
