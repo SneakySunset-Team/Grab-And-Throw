@@ -15,7 +15,9 @@ public class GTPlayerManager : GTSingleton<GTPlayerManager>
     private int _playerTagCurrentNum;
     [SerializeField, ReadOnly] private int _playerStartTargetIndex;
     private PlayerInputManager _playerInputManager;
-
+    [SerializeField] private CinemachineCamera _camera;
+    private bool _hasFirstPlayerJoined = false;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -57,6 +59,11 @@ public class GTPlayerManager : GTSingleton<GTPlayerManager>
 
     public void RegisterPlayer(GTPlayerController player)
     {
+        if (!_hasFirstPlayerJoined)
+        {
+            _hasFirstPlayerJoined = true;
+            _camera.Priority = 1;
+        }
         EPlayerTag playerTag = player.GetComponent<GTPlayerTag>().GetPlayerTag();
         if (_targetGroup)
             _targetGroup.AddMember(player.transform, 1, 3);
