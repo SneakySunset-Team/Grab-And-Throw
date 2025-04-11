@@ -504,6 +504,13 @@ public partial class GTGrabbableObject : SerializedMonoBehaviour, IGrabbable
         _stunEnum = null;
     }
 
+    public Transform GetTransform()
+    {
+        return transform;
+    }
 
-
+    public Rigidbody GetRigidbody()
+    {
+        return _rb;
+    }
 }

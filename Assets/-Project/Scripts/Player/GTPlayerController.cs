@@ -33,6 +33,7 @@ public class GTPlayerController : MonoBehaviour
     public void KillPlayer()
     {
         _grabber.Release();
+        _grabber.DisconnectFromSurface();
         GTPlayerManager.Instance.SetPlayerPosition(transform);
     }
 }

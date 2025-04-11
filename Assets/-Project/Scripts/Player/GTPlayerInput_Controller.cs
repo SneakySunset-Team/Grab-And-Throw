@@ -9,7 +9,6 @@ public class GTPlayerInput_Controller : MonoBehaviour
 
     // ****** PUBLIC      ******************************************
 
-
     public void OnJump(InputAction.CallbackContext cbx)
     {
         if (cbx.started)
@@ -50,6 +49,18 @@ public class GTPlayerInput_Controller : MonoBehaviour
         else if (cbx.canceled)
         {
             _grabberComponent?.OnThrowInput();
+        }
+    }
+
+    public void OnConnectToSurface(InputAction.CallbackContext cbx)
+    {
+        if (cbx.started)
+        {
+            _grabberComponent.ConnectToSurface();
+        }
+        else if(cbx.canceled)
+        {
+            _grabberComponent.DisconnectFromSurface();
         }
     }
 

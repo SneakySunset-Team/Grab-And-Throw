@@ -938,7 +938,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
       Data: 
@@ -966,6 +966,48 @@ MonoBehaviour:
     - Name: <RigidbodyConstraints>k__BackingField
       Entry: 3
       Data: 56
+    - Name: <PhysicsEcludeLayers>k__BackingField
+      Entry: 7
+      Data: UnityEngine.LayerMask, UnityEngine.CoreModule
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 7
+      Data: GTPhysicsParams, Assembly-CSharp
+    - Name: <IsPhysicsEnabled>k__BackingField
+      Entry: 5
+      Data: true
+    - Name: <IsPhysicsGravityEnabled>k__BackingField
+      Entry: 5
+      Data: false
+    - Name: <Mass>k__BackingField
+      Entry: 4
+      Data: 0
+    - Name: <GravityAdditionalStrength>k__BackingField
+      Entry: 4
+      Data: 0
+    - Name: <PhysicsMaterial>k__BackingField
+      Entry: 6
+      Data: 
+    - Name: <RigidbodyConstraints>k__BackingField
+      Entry: 3
+      Data: 0
     - Name: <PhysicsEcludeLayers>k__BackingField
       Entry: 7
       Data: UnityEngine.LayerMask, UnityEngine.CoreModule
@@ -1026,6 +1068,7 @@ MonoBehaviour:
   _debugDetectionSphere: 1
   _maxNumOfDetectionInRadius: 3
   _targetIndex: 0
+  _connexionJointsParams: {fileID: 11400000, guid: 55bf2063469ccfa489df61db74d11abc, type: 2}
 --- !u!114 &6219329069211287196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1046,10 +1089,12 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: CurrentMovementState
+      Entry: 3
+      Data: 0
   rotationSpeed: 5
   _movementDictionary: {fileID: 11400000, guid: 3980b483de932784aaea3f9cd339a706, type: 2}
-  _currentMovementState: 0
   _groundAngleLimit: 0.8
   _groundLayerMask:
     serializedVersion: 2
@@ -1238,6 +1283,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ed52fd92-f683-4b86-9afb-1c06bda0a0d4
     m_ActionName: Player/Rotate
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1735884947753352567}
+        m_TargetAssemblyTypeName: GTPlayerInput_Controller, Assembly-CSharp
+        m_MethodName: OnConnectToSurface
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 365aacbb-0ca8-4a29-b1da-291aee479ad2
+    m_ActionName: 'Player/ConnectToSurface[/Keyboard/shift,/XInputControllerWindows/buttonWest]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1546,11 +1607,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5671910290767253545, guid: 757b69e93fae8fe4ba34a594980dcda0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.008110563
+      value: -0.008110564
       objectReference: {fileID: 0}
     - target: {fileID: -5671910290767253545, guid: 757b69e93fae8fe4ba34a594980dcda0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.010450528
+      value: 0.010450529
       objectReference: {fileID: 0}
     - target: {fileID: -5538751756592888872, guid: 757b69e93fae8fe4ba34a594980dcda0, type: 3}
       propertyPath: m_LocalRotation.x

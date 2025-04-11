@@ -5,7 +5,7 @@
 			<value>Grab</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{75d1f6b3-ddb3-4bad-a99e-eabf6f6eb0e5}</destination>
@@ -88,7 +88,6 @@
 	<object class="MixerBusEffectChain" id="{6c02052d-2a48-4afb-9d1b-9222f860fa2d}">
 		<relationship name="effects">
 			<destination>{876e57e6-f67e-4f99-bd8e-530d8ab0c172}</destination>
-			<destination>{2825ac20-97e2-4cfe-97ef-7efd96db7d36}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{2d022c56-64d2-4690-bc3e-02f01afef429}" />
@@ -99,5 +98,4 @@
 	</object>
 	<object class="MixerBusFader" id="{7d435107-e7f6-4fca-b0e6-b09e503d4eff}" />
 	<object class="MixerBusFader" id="{876e57e6-f67e-4f99-bd8e-530d8ab0c172}" />
-	<object class="SpatialiserEffect" id="{2825ac20-97e2-4cfe-97ef-7efd96db7d36}" />
 </objects>

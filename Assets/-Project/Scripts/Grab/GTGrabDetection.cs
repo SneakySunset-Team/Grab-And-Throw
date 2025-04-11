@@ -188,6 +188,41 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
     }
 
   
+    public void ConnectToSurface()
+    {
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, transform.localScale.y * 2 + 2f, _playerMove._groundLayerMask))
+        {
+            var grabbable = hit.transform.GetComponent<IGrabbable>();
+            if (grabbable != null) 
+            {
+                transform.parent = hit.transform;
+                _connecterJoint = gameObject.AddComponent<ConfigurableJoint>();
+                _connexionJointsParams.InitializeJoint(ref _connecterJoint);
+                //_rig.weight = 1;
+                //var grabPoints = grabbable.GetGrabbableComponent<GTGrabbableObject>().GetGrabPoints();
+                //_rigConstraintLeft.data.target = grabPoints.Item1;
+                //_rigConstraintRight.data.target = grabPoints.Item2;
+                _connecterJoint.connectedBody = hit.rigidbody;
+                _myGrabbable.ChangeState(EGrabbingState.Grabbed);
+                _playerMove.ChangeState(EMovementState.Disabled);
+            }
+        }
+    }
+
+    public void DisconnectFromSurface() 
+    {
+        if(_connecterJoint != null )
+        {
+            Destroy(_connecterJoint);
+            transform.parent = null;
+            _myGrabbable.ChangeState(EGrabbingState.Passif);
+            _playerMove.ChangeState(EMovementState.Grounded);
+            //_rig.weight = 0;
+            //_rigConstraintLeft.data.target = null;
+            //_rigConstraintRight.data.target = null;
+        }
+    }
+
     public T GetGrabberComponent<T>()
     {
         return GetComponent<T>();
@@ -215,6 +250,8 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
     [SerializeField, BoxGroup("Detection"), Range(1, 10)] private int _maxNumOfDetectionInRadius;
     [SerializeField, BoxGroup("Detection"), ReadOnly] private int _targetIndex;
     [SerializeField, BoxGroup("Detection"), ReadOnly] private List<IGrabbable> _detectedGrabbables;
+
+    [SerializeField, BoxGroup("Connexion")] private GTSO_ConfigurableJointParams _connexionJointsParams;
     
 
     private void Start()
@@ -230,6 +267,7 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
         _rig = GetComponentInChildren<Rig>();
         _tag = GetComponent<GTPlayerTag>();
         _rigidbody = GetComponent<Rigidbody>();
+        _playerMove = GetComponent<GTCharacter_Move>();
     }
 
     private void OnDisable()
@@ -335,12 +373,13 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
     private IEnumerator _throwEnum;
     private Rig _rig;
     private GTPlayerTag _tag;
+    private GTCharacter_Move _playerMove;
     private Rigidbody _rigidbody;
     private ConfigurableJoint _joint;
+    private ConfigurableJoint _connecterJoint;
     private LineRenderer _lineRenderer;
     private PlayerInput _playerInput;
     private RaycastHit[] _raycastHitCache = new RaycastHit[10];
-
 
     private void ApplyThrow()
     {
@@ -488,7 +527,7 @@ public class GTGrabDetection : MonoBehaviour, IGrabber
         float objectMass = physicsParams.Mass;
         
         // Check if gravity is enabled for this object
-        bool isGravityEnabled = !physicsParams.IsPhysicsGravityEnabled;
+        bool isGravityEnabled = physicsParams.IsPhysicsGravityEnabled;
         
         // Get the constant force component (if it exists)
         Vector3 constantForceVector = Vector3.up * physicsParams.GravityAdditionalStrength;

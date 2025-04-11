@@ -5,7 +5,7 @@
 			<value>GetGrabbed</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{75d1f6b3-ddb3-4bad-a99e-eabf6f6eb0e5}</destination>
@@ -92,7 +92,6 @@
 	<object class="MixerBusEffectChain" id="{906184bc-909d-4bfa-a33e-5d6075c1123c}">
 		<relationship name="effects">
 			<destination>{cb55388c-75ac-485e-8c65-eff607f32723}</destination>
-			<destination>{d774de30-0481-4a72-955e-d1dc96c92bd9}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{e7fd97b0-3336-42ad-89df-aad4dcf4fbbd}" />
@@ -123,5 +122,4 @@
 	</object>
 	<object class="MixerBusFader" id="{422be76b-6cfc-4367-bdaa-e91445132bbe}" />
 	<object class="MixerBusFader" id="{cb55388c-75ac-485e-8c65-eff607f32723}" />
-	<object class="SpatialiserEffect" id="{d774de30-0481-4a72-955e-d1dc96c92bd9}" />
 </objects>

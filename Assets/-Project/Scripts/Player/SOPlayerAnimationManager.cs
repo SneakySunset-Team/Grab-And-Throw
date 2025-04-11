@@ -4,7 +4,6 @@ public class SOPlayerAnimationManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private Animator _animator;
-    private CharacterController _characterController;
     private IMovement _movementComponent;
 
     void Start()
@@ -21,7 +20,7 @@ public class SOPlayerAnimationManager : MonoBehaviour
 
             //Debug.Log(inputDirection);
 
-            if (inputDirection > 0.1) { _animator.SetBool("IsRunning", true); }
+            if (inputDirection > 0.1 && _movementComponent.CurrentMovementState == EMovementState.Grounded || _movementComponent.CurrentMovementState == EMovementState.Aiming) { _animator.SetBool("IsRunning", true); }
             else { _animator.SetBool("IsRunning", false); }
         }
     }

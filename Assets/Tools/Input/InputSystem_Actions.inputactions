@@ -103,6 +103,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ConnectToSurface",
+                    "type": "Button",
+                    "id": "365aacbb-0ca8-4a29-b1da-291aee479ad2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -488,6 +497,28 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "Rotate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "60a8fd63-fb6c-4cd1-8063-157fd9a44307",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "ConnectToSurface",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "83b97873-8f64-4969-809a-100b24abd653",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "ConnectToSurface",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

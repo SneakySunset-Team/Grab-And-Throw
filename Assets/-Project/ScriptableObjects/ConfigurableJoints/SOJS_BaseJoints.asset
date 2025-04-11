@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f822ab981c34ad41b9eb61545965ea2, type: 3}
   m_Name: SOJS_BaseJoints
   m_EditorClassIdentifier: 
-  XMotion: 1
+  XMotion: 0
   YMotion: 0
-  ZMotion: 1
-  AngularXMotion: 1
+  ZMotion: 0
+  AngularXMotion: 0
   AngularYMotion: 0
-  AngularZMotion: 1
+  AngularZMotion: 0
   LinearLimit: 0
   LinearBounciness: 1
   LinearContactDistance: 0

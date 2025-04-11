@@ -19,9 +19,14 @@ public interface IGrabbable
     public void SetFocused(bool value);
 
     public void ChangeState(EGrabbingState newState);
+
     public void Stun(float stunDuration);
 
     public T GetGrabbableComponent<T>();
-    
+
+    public Transform GetTransform();
+
+    public Rigidbody GetRigidbody();
+
     public void ReinitializeJoint();
 }

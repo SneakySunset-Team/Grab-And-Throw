@@ -3,7 +3,13 @@ using UnityEngine;
 public interface IGrabber
 {
     public void Grab();
+
+    public void ConnectToSurface();
+
+    public void DisconnectFromSurface();
+
     public void Attack();
+
     public void Reset();
 
     public void Release();
